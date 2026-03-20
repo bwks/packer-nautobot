@@ -14,3 +14,9 @@ crash.log
 
 # For built boxes
 *.box
+# Build output - qcow2 images can be large
+output/
+*.qcow2
+
+# Packer cache
+.cache/

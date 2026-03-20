@@ -1,0 +1,2 @@
+instance-id: nautobot-packer-build
+local-hostname: nautobot
