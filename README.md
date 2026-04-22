@@ -7,7 +7,8 @@ Packer build that produces a qcow2 disk image with [Nautobot](https://docs.nauto
 | Component | Details |
 |-----------|---------|
 | OS | Ubuntu 24.04 LTS (Noble), fully upgraded |
-| Nautobot | Latest release, installed in a Python venv at `/opt/nautobot` |
+| Nautobot | Pinned release (default `3.0.8`, overridable), installed in a Python venv at `/opt/nautobot` |
+| Plugins | `nautobot_bgp_models`, `nautobot_plugin_nornir`, `nautobot_circuit_maintenance` |
 | Database | PostgreSQL (local, `nautobot` DB + user) |
 | Cache / broker | Redis |
 | Web server | Nginx → uWSGI socket |
@@ -41,6 +42,7 @@ Override any variable with `-var 'name=value'` or a `.pkrvars.hcl` file.
 | `ubuntu_iso_checksum` | `file:…/SHA256SUMS` | Checksum (verified automatically) |
 | `output_directory` | `output` | Directory for the built image |
 | `vm_name` | `nautobot` | Output filename (without `.qcow2`) |
+| `nautobot_version` | `3.0.8` | Nautobot release to install. Empty string means latest. |
 | `disk_size` | `20480` (20 GB) | Disk size in MB, sparse qcow2 |
 | `memory` | `4096` | Build VM RAM in MB |
 | `cpus` | `2` | Build VM CPU count |
@@ -50,6 +52,12 @@ Example — build with more RAM and a custom output path:
 
 ```sh
 packer build -var 'memory=8192' -var 'output_directory=/var/lib/libvirt/images' .
+```
+
+Example — build a different Nautobot release:
+
+```sh
+packer build -var 'nautobot_version=2.4.0' .
 ```
 
 ## First-boot checklist

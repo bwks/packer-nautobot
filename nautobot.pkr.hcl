@@ -32,6 +32,12 @@ source "qemu" "nautobot" {
   headless     = true
   net_device   = "virtio-net"
 
+  # Expose host CPU features (needed for x86-64-v2 wheels like numpy, which
+  # nautobot_circuit_maintenance pulls in transitively).
+  qemuargs = [
+    ["-cpu", "host"],
+  ]
+
   # --- cloud-init NoCloud seed ISO ---
   # Files are placed at the ISO root using their basenames:
   #   cloud-init/user-data  -> user-data
@@ -64,6 +70,7 @@ build {
     execute_command = "chmod +x {{ .Path }}; sudo env {{ .Vars }} {{ .Path }}"
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
+      "NAUTOBOT_VERSION=${var.nautobot_version}",
     ]
     scripts = [
       "scripts/00-prepare.sh",

@@ -46,6 +46,12 @@ variable "accelerator" {
   default     = "kvm"
 }
 
+variable "nautobot_version" {
+  type        = string
+  description = "Nautobot version to install (PEP 440 specifier, e.g. '3.0.8'). Leave empty for the latest release."
+  default     = "3.0.8"
+}
+
 variable "ssh_username" {
   type    = string
   default = "ubuntu"
